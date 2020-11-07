@@ -49,8 +49,9 @@
     </div>
 
     {% if product.old_price %}
-        <input type="hidden" name="old_price" value="{{product.old_price}}">
+        <input type="hidden" name="old_price" value="{{ product.old_price }}">
     {% endif %}
+    
 
 </div>
 
@@ -63,21 +64,21 @@
 
 </div>
 
-{% if products.status %}
+{% if (product.status == '1') or (product.status == '0') %}
     <div class="item">
         <div>Disponível</div>
 
         <div>
             <span>
                 <input type="radio" name="status" value="1" required 
-                    {% if products.status == "1" %}
+                    {% if product.status == "1" %}
                         checked
                     {% endif %}>Sim
             </span>
 
             <span>
                 <input type="radio" name="status" value="0" required 
-                    {% if products.status == "0" %}
+                    {% if product.status == "0" %}
                         checked
                     {% endif %}>Não
             </span>

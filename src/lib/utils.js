@@ -21,5 +21,12 @@ module.exports = {
             birthDay: `${day}/${month}`,
             format: `${day}/${month}/${year}`
         }
+    },
+
+    formatPrice(price){
+        return new Intl.NumberFormat('pt-BR', {
+            style: 'currency',              // Formatando para moeda
+            currency: 'BRL'                 // Colocando o símbolo da moeda escolhida
+        }).format(price/100)                // Dividindo o valor por 100 para formatar em formato de moeda
     }
 }
