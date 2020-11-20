@@ -19,17 +19,24 @@ const Mask = {
 }
 
 const PhotosUpload = {
+    input: "",
 
     preview:document.querySelector('#photos-preview'),
 
     uploadLimit: 6,
 
+    files: [],
+
     handleFileInput(event){
         const { files: filesList } = event.target
+        PhotosUpload.input = event.target
 
         if(PhotosUpload.hasLimit(event)) return
         
         Array.from(filesList).forEach(file => {
+
+            PhotosUpload.files.push(file)
+
             const reader = new FileReader()                     //instanciando um construtor para carregar um arquivo
 
             reader.onload = () => {
@@ -44,11 +51,12 @@ const PhotosUpload = {
             reader.readAsDataURL(file)
         })
 
+        PhotosUpload.input.files = PhotosUpload.getAllFiles()
     },
 
     hasLimit(event){
-        const { uploadLimit } = PhotosUpload
-        const { files: filesList } = event.target
+        const { uploadLimit, input, preview } = PhotosUpload
+        const { files: filesList } = input
 
         //Validando a quantidade de fotos enviadas
         if(filesList.lenght > uploadLimit){
@@ -57,7 +65,33 @@ const PhotosUpload = {
             return true
         }
 
+        const photosDiv = []
+        preview.childNodes.forEach(item => {
+            if(item.classList && item.classList.value == "photo"){
+                photosDiv.push(item)
+            }
+        })
+
+        const totalPhotos = filesList.length + photosDiv.length
+        if(totalPhotos > uploadLimit){
+            alert('Você atingiu o máximo de fotos')
+            event.preventDefault()
+            return true
+        }
+
         return false
+    },
+
+    getAllFiles(){
+        const dataTransfer = 
+            new ClipboardEvent("").clipboardData || // o clipboard é para o Firefox
+            new DataTransfer()                      // construto para guardar dados arrastados durante uma operação de Arrastar e Soltar
+        
+        PhotosUpload.files.forEach(file => dataTransfer.items.add(file))
+
+        return dataTransfer.files
+
+
     },
 
     getContainer(image){
@@ -81,9 +115,12 @@ const PhotosUpload = {
     },
 
     removePhoto(event){
-        const photoDiv = event.target.parentNode                        // o event.target é o I, o parentNode é um item acima, ou seja, a DIV
+        const photoDiv = event.target.parentNode                        // o event.target é o I, o parentNode é um item acima, ou seja, a DIV class Photo
         const photosArray = Array.from(PhotosUpload.preview.children)   // carrega as fotos no photosArray
         const index = photosArray.indexOf(photoDiv)                     // busca o index do item/foto clicado
+
+        PhotosUpload.files.splice(index, 1)                             // encontra o item do array e remove ele
+        PhotosUpload.input.files = PhotosUpload.getAllFiles()           // o input é recarregado com o método 
 
         photoDiv.remove()
     }
