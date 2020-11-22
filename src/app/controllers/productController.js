@@ -1,7 +1,8 @@
 const Category = require('../models/Category')
 const Product = require('../models/Product')
+const File = require('../models/File')
+
 const { formatPrice } = require('../../lib/utils')
-const { put } = require('../../routes')
 
 module.exports = {
 
@@ -24,11 +25,17 @@ module.exports = {
                 return res.send('Por favor preencha os campos / Please, fill all fields')
             }
         }
+
+        if(req.files.lenght == 0)
+            return res.send('Por favor, envie pelos uma imagem')
                                                                                                          
         let results = await Product.create(req.body)
         const productID = results.rows[0].id
 
-        return res.redirect(`/products/${productID}`)
+        const filesPromise = req.files.map(file => File.create({...file, product_id: productID})) // criamos uma Array de Promises, onde salvarão as imagens
+        await Promise.all(filesPromise)    // executa as Promises guardadas no Array
+
+        return res.redirect(`/products/${productID}/edit`)
 
     },
 
