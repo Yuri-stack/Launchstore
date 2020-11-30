@@ -82,6 +82,21 @@ module.exports = {
 
         return db.query('DELETE FROM products WHERE id = $1', [id])
 
+    },
+
+    //Função para CARREGAR os arquivos/imagens do produto
+    files( id ){
+
+        return db.query(`SELECT * FROM files WHERE product_id = $1`, [id])
+
     }
+
+    // files( id ){
+
+    //     return db.query(`SELECT * FROM files WHERE product_id = $1`, [id]) 
+
+    // }
+
+
 
 }
