@@ -2,7 +2,7 @@ const Category = require('../models/Category')
 const Product = require('../models/Product')
 const File = require('../models/File')
 
-const { formatPrice } = require('../../lib/utils')
+const { formatPrice, date } = require('../../lib/utils')
 
 module.exports = {
 
@@ -35,8 +35,28 @@ module.exports = {
         const filesPromise = req.files.map(file => File.create({...file, product_id: productID})) // criamos uma Array de Promises, onde salvarão as imagens
         await Promise.all(filesPromise)    // executa as Promises guardadas no Array
 
-        return res.redirect(`/products/${productID}/edit`)
+        return res.redirect(`/products/${productID}`)
 
+    },
+
+    async show(req, res){
+
+        let results = await Product.find(req.params.id)
+        const product = results.rows[0]
+
+        if(!product) return res.send("Produto não encontrado / Product not found")
+
+        const { day, hour, minutes, month } = date(product.updated_at)
+
+        product.published = {
+            day: `${day}/${month}`,
+            hour: `${hour}h${minutes}`
+        }
+
+        product.oldPrice = formatPrice(product.old_price)
+        product.price = formatPrice(product.price)
+
+        return res.render("products/show", { product })
     },
 
     async edit(req, res){
@@ -105,7 +125,7 @@ module.exports = {
 
         await Product.update(req.body)
 
-        return res.redirect(`/products/${req.body.id}/edit`)
+        return res.redirect(`/products/${req.body.id}`)
 
     },
 

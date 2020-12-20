@@ -9,7 +9,9 @@ routes.get('/', function(req, res){
 })
 
 routes.get('/products/create', Product.create)      // Redireciona para o formulário de cadastro
+routes.get('/products/:id', Product.show)           // Redireciona para 
 routes.get('/products/:id/edit', Product.edit)      // Redireciona para o formulário de edição
+
 routes.post('/products', multer.array("photos", 6), Product.post)   // Recebe os dados do Form, verifica os arq. do campo "Photos" e cadastra
 routes.put('/products', multer.array("photos", 6), Product.put)     // Recebe os dados do Form, verifica os arq. do campo "Photos" e atualiza
 routes.delete('/products', Product.delete)          // Deleta um produto
