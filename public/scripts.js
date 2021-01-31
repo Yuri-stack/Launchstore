@@ -19,12 +19,10 @@ const Mask = {
 }
 
 const PhotosUpload = {
+    
     input: "",
-
     preview:document.querySelector('#photos-preview'),
-
     uploadLimit: 6,
-
     files: [],
 
     handleFileInput(event){
@@ -98,7 +96,7 @@ const PhotosUpload = {
         const container = document.createElement('div')         //cria uma DIV
         container.classList.add('photo')                        //add uma classe chamada photo a DIV
 
-        container.onclick = PhotosUpload.removePhoto      //quando clicar na DIV, aparece uma para apagar a img
+        container.onclick = PhotosUpload.removePhoto            //quando clicar na DIV, aparece uma para apagar a img
 
         container.appendChild(image)                            //add a image na DIV chamada Container
 

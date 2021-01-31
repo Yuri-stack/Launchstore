@@ -2,8 +2,19 @@ const db = require('../../config/db')
 
 module.exports = {
 
+    all(){
+
+        const query =`
+            SELECT * FROM products
+            ORDER BY updated_at DESC
+        `
+
+        return db.query(query)
+        
+    },
+
     //Função para CREATE
-    create( data ){
+    create(data){
 
         const query = `
             INSERT INTO products (
@@ -37,7 +48,7 @@ module.exports = {
     },
 
     //Função para RETORNAR um produto específico
-    find( id ){
+    find(id){
 
         const query = `SELECT * FROM products WHERE id = $1`
 
@@ -46,7 +57,7 @@ module.exports = {
     },
 
     //Função para ATUALIZAR um produto
-    update( data ){
+    update(data){
 
         const query = `
             UPDATE products SET
@@ -78,25 +89,17 @@ module.exports = {
     },
 
     //Função para APAGAR um produto
-    delete( id ){
+    delete(id){
 
         return db.query('DELETE FROM products WHERE id = $1', [id])
 
     },
 
     //Função para CARREGAR os arquivos/imagens do produto
-    files( id ){
+    files(id){
 
         return db.query(`SELECT * FROM files WHERE product_id = $1`, [id])
 
     }
-
-    // files( id ){
-
-    //     return db.query(`SELECT * FROM files WHERE product_id = $1`, [id]) 
-
-    // }
-
-
 
 }
