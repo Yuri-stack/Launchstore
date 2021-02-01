@@ -130,15 +130,7 @@ module.exports = {
                     return res.send('Por favor preencha os campos / Please, fill all fields')
                 }
             }
-    
-            // Lógica para SALVAR as novas imagens carregadas durante a Atualização
-            if(req.files.lenght != 0){
-                const newFilesPromise = req.files.map(file => 
-                    File.create({...file, product_id: req.body.id}))
-                
-                await Promise.all(newFilesPromise)
-            }
-    
+
             // Lógica para Excluir as imagens do BD
             if(req.body.removed_files){
                 const removedFiles = req.body.removed_files.split(",")
@@ -151,6 +143,21 @@ module.exports = {
                 await Promise.all(removedFilesPromise)
             }
     
+            // Lógica para SALVAR as novas imagens carregadas durante a Atualização
+            if(req.files.lenght != 0){
+
+                // Lógica para verificar se já existem 6 imagens cadastradas
+                const oldFiles = await Product.files(req.body.id)
+                const totalFiles = oldFiles.rows.length + req.files.length
+
+                if(totalFiles <= 6){
+                    const newFilesPromise = req.files.map(file => 
+                        File.create({...file, product_id: req.body.id}))
+                    
+                    await Promise.all(newFilesPromise)
+                }
+            }
+        
             req.body.price = req.body.price.replace(/\D/g, "")
     
             if(req.body.old_price != req.body.price){

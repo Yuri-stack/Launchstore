@@ -29,7 +29,10 @@ const PhotosUpload = {
         const { files: filesList } = event.target
         PhotosUpload.input = event.target
 
-        if(PhotosUpload.hasLimit(event)) return
+        if(PhotosUpload.hasLimit(event)){
+            PhotosUpload.updateImputFiles()
+            return 
+        }
         
         Array.from(filesList).forEach(file => {
 
@@ -49,7 +52,7 @@ const PhotosUpload = {
             reader.readAsDataURL(file)
         })
 
-        PhotosUpload.input.files = PhotosUpload.getAllFiles()
+        PhotosUpload.updateImputFiles()
     },
 
     hasLimit(event){
@@ -114,12 +117,16 @@ const PhotosUpload = {
 
     removePhoto(event){
         const photoDiv = event.target.parentNode                        // o event.target é o I, o parentNode é um item acima, ou seja, a DIV class Photo
-        const photosArray = Array.from(PhotosUpload.preview.children)   // carrega as fotos no photosArray
-        const index = photosArray.indexOf(photoDiv)                     // busca o index do item/foto clicado
-
+        
+        const newFiles = Array.from(PhotosUpload.preview.children)
+        .filter((file) => {
+            if(file.classList.contains('photo') && !file.getAttribute('id')) return true
+        })                                                              // carrega as fotos no photosArray
+        
+        const index = newFiles.indexOf(photoDiv)                        // busca o index do item/foto clicado
         PhotosUpload.files.splice(index, 1)                             // encontra o item do array e remove ele
-        PhotosUpload.input.files = PhotosUpload.getAllFiles()           // o input é recarregado com o método 
-
+        
+        PhotosUpload.updateImputFiles()
         photoDiv.remove()
     },
 
@@ -138,7 +145,10 @@ const PhotosUpload = {
         }
 
         photoDiv.remove()
+    },
 
+    updateImputFiles(){
+        PhotosUpload.input.files = PhotosUpload.getAllFiles()           // o input é recarregado com o método 
     }
 }
 
