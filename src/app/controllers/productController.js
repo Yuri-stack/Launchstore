@@ -144,7 +144,7 @@ module.exports = {
             }
     
             // Lógica para SALVAR as novas imagens carregadas durante a Atualização
-            if(req.files.lenght != 0){
+            if(req.files.length != 0){
 
                 // Lógica para verificar se já existem 6 imagens cadastradas
                 const oldFiles = await Product.files(req.body.id)

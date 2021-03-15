@@ -119,7 +119,7 @@ const PhotosUpload = {
         const photoDiv = event.target.parentNode                        // o event.target é o I, o parentNode é um item acima, ou seja, a DIV class Photo
         
         const newFiles = Array.from(PhotosUpload.preview.children)
-        .filter((file) => {
+        .filter(function(file) {
             if(file.classList.contains('photo') && !file.getAttribute('id')) return true
         })                                                              // carrega as fotos no photosArray
         
