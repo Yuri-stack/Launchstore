@@ -19,7 +19,9 @@
             type="email" 
             name="email" 
             placeholder="Digite seu email"
-            value="{{ user.email }}" required>
+            value="{{ user.email }}" 
+            onblur="Validate.apply(this,'isEmail')"
+            required>
     </div>
 
 </div>
