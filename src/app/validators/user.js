@@ -96,4 +96,4 @@ async function update(req, res, next){
     next()
 }
 
-module.exports = { post, show }
+module.exports = { post, show, update }

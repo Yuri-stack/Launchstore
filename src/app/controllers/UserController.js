@@ -37,7 +37,7 @@ module.exports = {
             })
 
             return res.render("user/index", {
-                sucess: "Conta atualizada"
+                success: "Conta atualizada"
             })
             
         } catch (error) {
