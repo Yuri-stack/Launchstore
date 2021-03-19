@@ -33,34 +33,55 @@ module.exports = {
     },
 
     formatCpfCnpj(value){
-        let error = null
-        const cleanValues = value.replace(/\D/g, "")
 
-        if(cleanValues.length > 11 && cleanValues.length !== 14){
-            error = "CNPJ incorreto"
-        }
-        else if(cleanValues.length < 12 && cleanValues.length !== 11){
-            error = "CPF incorreto"
+        value = value.replace(/\D/g, "")    // Usando Expressão Regular para retirar texto
+
+        if(value.length > 14){
+            value = value.slice(0,-1)
         }
 
-        return{
-            error,
-            value
+        if(value.length > 11){
+            // value = 11222333444455
+
+            value = value.replace(/(\d{2})(\d)/, "$1.$2")
+            // value = 11.222333444455
+
+            value = value.replace(/(\d{3})(\d)/, "$1.$2")
+            // value = 11.222.333444455
+
+            value = value.replace(/(\d{3})(\d)/, "$1/$2")
+            // value = 11.222.333/444455
+
+            value = value.replace(/(\d{4})(\d)/, "$1-$2")
+            // value = 11.222.333/4444-55
+
+        } else {
+            // value = 11122233344
+
+            value = value.replace(/(\d{3})(\d)/, "$1.$2")
+            // value = 111.22233344
+
+            value = value.replace(/(\d{3})(\d)/, "$1.$2")
+            // value = 111.222.33344
+
+            value = value.replace(/(\d{3})(\d)/, "$1-$2")
+            // value = 111.222.333-44
         }
+
+        return value
+
     },
-
+    
     formatCep(value){
-        let error = null
 
-        const cleanValues = value.replace(/\D/g, "")
+        value = value.replace(/\D/g, "")    // Usando Expressão Regular para retirar texto 
 
-        if(cleanValues.length !== 8){
-            error = "CEP incorreto"
+        if(value.length > 8){
+            value = value.slice(0,-1)
         }
 
-        return{
-            error,
-            value
-        }
+        value = value.replace(/(\d{5})(\d)/, "$1-$2")
+
+        return value
     }
 }

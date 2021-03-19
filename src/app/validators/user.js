@@ -85,7 +85,7 @@ async function update(req, res, next){
     const passed = await compare(password, user.password)
     
     if(!passed){
-        res.render("user/index", {
+        return res.render("user/index", {
             user: req.body,
             error: "Senha incorreta"
         })
