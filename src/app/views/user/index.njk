@@ -1,0 +1,50 @@
+{% extends "layout.njk" %}
+
+{% block content %}
+
+    <section class="user-dashboard container form">
+
+        <form method="POST" action="/users?_method=PUT">
+
+            <div class="header"> 
+                <h3>Detalhes</h3>
+            </div>
+
+            <div class="fields">
+                {% include 'user/fields.njk' %}
+
+                <input type="hidden" name="id" value="{{ user.id }}"> 
+                {# utilizando esse campo para poder mandar o ID para o backend, quando formos atualizar algum registro #}
+
+            </div>
+
+            <button class="button edit" type="submit">Atualizar</button>
+
+        </form>
+
+        <form id="form-delete" action="/users?_method=DELETE" method="post">
+
+            <input type="hidden" name="id" value="{{ user.id }}">
+
+            <button class="button delete" type="submit">Apagar</button>
+
+        </form>
+
+    </section>
+
+    <script>
+
+        const formDelete = document.querySelector("#form-delete")
+
+        formDelete.addEventListener("submit", function(event){              //verifica se o evento Submit do botão foi iniciado
+            const confirmation = confirm("Tem certeza que deseja excluir?") //usa o método Confirm, que funciona com uma caixa de confirmação
+
+            if(!confirmation){
+                event.preventDefault()                                      //se o método Confirm retornar negativo, ele nega a ação padrão do botão, que é enviar o form
+            }
+        })
+
+    </script>
+
+{% endblock content %}
+
