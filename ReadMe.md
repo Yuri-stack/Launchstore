@@ -34,6 +34,7 @@
 <!--ts-->
    * [About](#about)
    * [Features](#features)
+   * [Revised Concepts](#revised-concepts)
    * [Get Started](#get-started)
    * [Technologies](#technologies)
    * [License](#license)
@@ -51,7 +52,12 @@
 
 - 🎁 Buy and sell various products.
 - 🆙 Through an administrative platform, manage users and their products.
-- 💻 Login and Logout of users
+- 💻 Login and Logout of users.
+
+## Revised Concepts
+
+- ❌ Blocking routes for users unregistered.
+- 🌐 Global Variables.
 
 ## Get Started
 <b> You must have already installed </b>
