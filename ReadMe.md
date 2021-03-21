@@ -49,8 +49,9 @@
 
 ## Features
 
-- 💻 Buy and sell various products.
+- 🎁 Buy and sell various products.
 - 🆙 Through an administrative platform, manage users and their products.
+- 💻 Login and Logout of users
 
 ## Get Started
 <b> You must have already installed </b>
