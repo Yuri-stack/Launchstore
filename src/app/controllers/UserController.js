@@ -14,13 +14,23 @@ module.exports = {
         user.cep = formatCep(user.cep)
 
         return res.render("user/index", { user })
-    },
+    }, 
 
     async post(req, res){
-        const userId = await User.create(req.body)
-        req.session.userId = userId
 
-        return res.redirect('/users')
+        try {
+
+            const userId = await User.create(req.body)
+
+            // const userId = await User.create(req.body)
+            req.session.userId = userId
+
+            return res.redirect('/users')
+            
+        } catch (error) {
+            console.error(error)
+        }
+        
 
     },
 

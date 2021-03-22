@@ -9,18 +9,18 @@ const SessionValidator = require('../app/validators/session')
 
 const { isLoggedRedirectToUsers, onlyUsers } = require('../app/middlewares/session')
 
-// // Rotas para Login / Logout
+// Rotas para Login / Logout
 routes.get('/login', isLoggedRedirectToUsers, Session.loginForm)
 routes.post('/login', SessionValidator.login, Session.login)
 routes.post('/logout', Session.logout)
 
-// // Rotas para Reset da Senha
-// routes.get('/forgot-password', Session.forgotForm)
-// routes.get('/password-reset', Session.resetForm)
-// routes.post('/forgot-password', Session.forgot)
-// routes.post('/password-reset', Session.reset)
+// Rotas para Reset da Senha
+routes.get('/forgot-password', Session.forgotForm)
+routes.get('/password-reset', Session.resetForm)
+routes.post('/forgot-password', SessionValidator.forgot, Session.forgot)
+routes.post('/password-reset', Session.reset)
 
-// // Rotas para Administração dos Usuários
+// Rotas para Administração dos Usuários
 routes.get('/register', User.registerForm)
 routes.post('/register', UserValidator.post, User.post)
 

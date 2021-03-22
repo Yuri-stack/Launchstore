@@ -40,7 +40,9 @@ CREATE TABLE "users" (
   "cep" text,
   "address" text,
   "created_at" timestamp DEFAULT (now()),
-  "updated_at" timestamp DEFAULT (now())
+  "updated_at" timestamp DEFAULT (now()),
+  "reset_token" text,
+  "reset_token_expires" text
 );
 
 CREATE TABLE "session" (
