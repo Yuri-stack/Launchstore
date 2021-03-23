@@ -1,5 +1,6 @@
 const User = require('../models/User')
 
+const { hash } = require('bcryptjs')
 const crypto = require('crypto')
 const mailer = require('../../lib/mailer')
 
@@ -11,8 +12,8 @@ module.exports = {
 
             return res.render("session/login")
             
-        } catch (error) {
-            console.log(error)
+        } catch (err) {
+            console.error(err)
         }
 
     },
@@ -25,8 +26,8 @@ module.exports = {
 
             return res.redirect("/users")
             
-        } catch (error) {
-            console.log(error)
+        } catch (err) {
+            console.error(err)
         }
 
     },
@@ -38,8 +39,8 @@ module.exports = {
             req.session.destroy()
             return res.redirect("/")
             
-        } catch (error) {
-            console.log(error)
+        } catch (err) {
+            console.error(err)
         }
     },
 
@@ -49,8 +50,8 @@ module.exports = {
 
             return res.render("session/forgot-password")
             
-        } catch (error) {
-            console.log(error)
+        } catch (err) {
+            console.error(err)
         }
 
     },
@@ -110,12 +111,45 @@ module.exports = {
 
             return res.render("session/password-reset", { token: req.query.token })
             
-        } catch (error) {
-            console.log(error)
+        } catch (err) {
+            console.error(err)
         }
 
     },
 
-    reset(req, res){}
+    async reset(req, res){
+
+        const user = req.user
+        const { password, token } = req.body
+
+        try {
+
+            // Cria uma nova senha
+            const newPassword = await hash(password, 8)
+
+            // Atualiza o usuário
+            await User.update(user.id, {
+                password: newPassword,
+                reset_token: "",
+                reset_token_expires: ""
+            })
+
+            // Confirma a atualização
+            return res.render("session/login", {
+                user: req.body,
+                success: "Senha Atualizada!"
+            })
+
+            
+        } catch (err) {
+            console.error(err)
+            return res.render("session/password-reset", {
+                user: req.body,
+                token,
+                error: "Erro inesperado, tente novamente mais tarde"
+            })
+        }
+
+    }
 
 }

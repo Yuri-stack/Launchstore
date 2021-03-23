@@ -58,6 +58,9 @@
 
 - ❌ Blocking routes for users unregistered.
 - 🌐 Global Variables.
+- 🖼️ Multer to upload images
+- 🔑 Bcrypt for passwords
+- 📧 Nodemailer
 
 ## Get Started
 <b> You must have already installed </b>

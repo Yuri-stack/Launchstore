@@ -18,7 +18,7 @@ routes.post('/logout', Session.logout)
 routes.get('/forgot-password', Session.forgotForm)
 routes.get('/password-reset', Session.resetForm)
 routes.post('/forgot-password', SessionValidator.forgot, Session.forgot)
-routes.post('/password-reset', Session.reset)
+routes.post('/password-reset', SessionValidator.reset, Session.reset)
 
 // Rotas para Administração dos Usuários
 routes.get('/register', User.registerForm)
