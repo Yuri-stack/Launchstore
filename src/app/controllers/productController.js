@@ -38,14 +38,16 @@ module.exports = {
     
             if(req.files.lenght == 0)
                 return res.send('Por favor, envie pelos uma imagem')
-                                                                                                             
+
+            req.body.user_id = req.session.userId
+                                                                                                        
             let results = await Product.create(req.body)
             const productID = results.rows[0].id
     
             const filesPromise = req.files.map(file => File.create({...file, product_id: productID})) // criamos uma Array de Promises, onde salvarão as imagens
             await Promise.all(filesPromise)    // executa as Promises guardadas no Array
     
-            return res.redirect(`/products/${productID}`)
+            return res.redirect(`/products/${productID}/edit`)
             
         } catch (err) {
             console.log(err)
