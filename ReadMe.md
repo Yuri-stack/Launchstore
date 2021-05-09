@@ -1,6 +1,6 @@
 <h1 align="center">
     <br>
-        <img src="github/assets/logo.png" alt="Logo" width="480">
+        <img src="public/images/logo.png" alt="Logo" width="480">
     <br>
     <br>
         LaunchStore 
@@ -26,7 +26,7 @@
 </div>
 
 <p align="center">
-    <img src="github/assets/home.png" alt="Home" width="480">
+    <img src="public/images/home.png" alt="Home" width="480">
 </p>
 
 ## Table of Contents
