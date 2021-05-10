@@ -98,3 +98,13 @@ CREATE TRIGGER set_timestamp
 BEFORE UPDATE ON users
 FOR EACH ROW
 EXECUTE PROCEDURE trigger_set_timestamp();
+
+-- to run seeds
+DELETE FROM products;
+DELETE FROM users;
+DELETE FROM files;
+
+-- restart sequence auto_increment from tables ids
+ALTER SEQUENCE products_id_seq RESTART WITH 1;
+ALTER SEQUENCE users_id_seq RESTART WITH 1;
+ALTER SEQUENCE files_id_seq RESTART WITH 1;
