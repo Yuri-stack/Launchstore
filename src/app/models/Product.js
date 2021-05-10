@@ -6,12 +6,13 @@ module.exports = {
     ...Base,
     
     //Função para CARREGAR os arquivos/imagens do produto
-    files(id){
-        return db.query(`SELECT * FROM files WHERE product_id = $1`, [id])
+    async files(id){
+        const results = await db.query(`SELECT * FROM files WHERE product_id = $1`, [id])
+        return results.rows
     },
 
     //Função para BUSCAR os produtos
-    search(params){
+    async search(params){
 
         const { filter, category } = params
 
@@ -39,7 +40,8 @@ module.exports = {
             ${filterQuery}
         `
 
-        return db.query(query)
+        const results = await db.query(query)
+        return results.rows
 
     }
 }
