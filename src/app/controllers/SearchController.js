@@ -30,7 +30,7 @@ module.exports = {
                 return product
             })
 
-            let products = await Promise.all(productsPromise)
+            products = await Promise.all(productsPromise)
 
             const search = {
                 term: req.query.filter,
