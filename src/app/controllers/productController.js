@@ -2,6 +2,8 @@ const Category = require('../models/Category')
 const Product = require('../models/Product')
 const File = require('../models/File')
 
+const { unlinkSync } = require('fs')
+
 const { formatPrice, date } = require('../../lib/utils')
 
 module.exports = {
@@ -32,7 +34,7 @@ module.exports = {
 
             let { category_id, name, description, old_price, price, quantity, status } = req.body
 
-            price = data.price.replace(/\D/g, "")  // Usando Expressão Regular para retirar caracteres de texto
+            price = price.replace(/\D/g, "")  // Usando Expressão Regular para retirar caracteres de texto
 
             const product_id = await Product.create({ 
                 category_id, 
@@ -46,7 +48,8 @@ module.exports = {
              })
 
             // criamos uma Array de Promises, onde salvarão as imagens
-            const filesPromise = req.files.map(file => File.create({...file, product_id})) 
+            const filesPromise = req.files.map(file => 
+                File.create({ name: file.filename, path:file.path, product_id })) 
             // executa as Promises guardadas no Array
             await Promise.all(filesPromise)
     
@@ -182,8 +185,21 @@ module.exports = {
     async delete(req, res){
 
         try {
+            // Pega todos os arquivos/fotos do Produto
+            const files = await Product.files(req.body.id)
 
+            //  Apaga o Produto
             await Product.delete(req.body.id)
+
+            // Deleta os Arquivos/Fotos
+            files.map(file => {
+                try {
+                    unlinkSync(file.path)
+                } catch (error) {
+                    console.log(error)
+                }
+            })
+
             return res.redirect('/products/create')
             
         } catch (err) {
