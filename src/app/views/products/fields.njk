@@ -53,9 +53,9 @@
 
         <div id="photos-preview">
 
-            {% if files %}
+            {% if product.files %}
 
-                {% for image in files %}
+                {% for image in product.files %}
 
                     <div class="photo" id={{image.id}}>
 
@@ -86,14 +86,14 @@
             type="text" 
             name="price"
             placeholder="Preço do Produto" 
-            value="{{ product.price }}" 
+            value="{{ product.formattedPrice }}" 
             onkeydown="Mask.apply(this, 'formatBRL')"
             required
         >
     </div>
 
     {% if product.old_price %}
-        <input type="hidden" name="old_price" value="{{ product.old_price }}">
+        <input type="hidden" name="old_price" value="{{ product.formattedOldPrice }}">
     {% endif %}
     
 
