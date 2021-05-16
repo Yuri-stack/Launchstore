@@ -1,10 +1,11 @@
 const { hash } = require('bcryptjs')
 const { unlinkSync } = require('fs')
+const { formatCpfCnpj, formatCep } = require('../../lib/utils')
 
 const User = require('../models/User')
 const Product = require('../models/Product')
 
-const { formatCpfCnpj, formatCep } = require('../../lib/utils')
+const LoadProductService = require('../services/LoadProductService')
 
 module.exports = {
     registerForm(req, res){
@@ -116,5 +117,14 @@ module.exports = {
                 error: "Ocorreu um erro ao apagar sua conta, tente mais tarde"
             })
         }
+    },
+
+    async ads(req, res){
+
+        const products = await LoadProductService.load('products', {
+            where: { user_id: req.session.userId }
+        })
+
+        return res.render("user/ads", { products })
     }
 }
