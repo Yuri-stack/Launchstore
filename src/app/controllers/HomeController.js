@@ -7,7 +7,7 @@ module.exports = {
             const allProducts = await LoadProductService.load('products')
 
             //Cria um filtro para enviar apenas 3 produtos para o Index
-            const products = allProducts.filter((product, index) => index > 2  ? false : true)
+            const products = allProducts.filter((product, index) => index > 2 ? false : true)
 
             return res.render("home/index", { products })
         } catch (err) {
