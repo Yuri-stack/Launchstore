@@ -38,7 +38,7 @@ const LoadService = {
         return this[service]()
     },
 
-    async product(){
+    product(){
         try {
             const product = await Product.findOne(this.filter)
             return format(product)
@@ -47,7 +47,7 @@ const LoadService = {
         }
     },
 
-    async products(){
+    products(){
         try {
             const products = await Product.findAll(this.filter)
             const productsPromise = products.map(format)
