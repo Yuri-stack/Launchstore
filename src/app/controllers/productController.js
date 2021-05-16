@@ -21,17 +21,6 @@ module.exports = {
 
         try {
 
-            const keys = Object.keys(req.body)                  
-
-            for(key of keys){                       
-                if(req.body[key] == ""){
-                    return res.send('Por favor preencha os campos / Please, fill all fields')
-                }
-            }
-    
-            if(req.files.lenght == 0)
-                return res.send('Por favor, envie pelos uma imagem')
-
             let { category_id, name, description, old_price, price, quantity, status } = req.body
 
             price = price.replace(/\D/g, "")  // Usando Expressão Regular para retirar caracteres de texto
@@ -94,26 +83,6 @@ module.exports = {
     async put(req, res){
         
         try {
-
-            const keys = Object.keys(req.body)                  
-
-            for(key of keys){                       
-                if(req.body[key] == "" && key != "removed_files"){
-                    return res.send('Por favor preencha os campos / Please, fill all fields')
-                }
-            }
-
-            // Lógica para Excluir as imagens do BD
-            if(req.body.removed_files){
-                const removedFiles = req.body.removed_files.split(",")
-                const lastIndex = removedFiles.length - 1
-    
-                removedFiles.splice(lastIndex, 1)
-    
-                const removedFilesPromise = removedFiles.map(id => File.delete(id))
-    
-                await Promise.all(removedFilesPromise)
-            }
     
             // Lógica para SALVAR as novas imagens carregadas durante a Atualização
             if(req.files.length != 0){
@@ -128,6 +97,18 @@ module.exports = {
                     
                     await Promise.all(newFilesPromise)
                 }
+            }
+
+            // Lógica para Excluir as imagens do BD
+            if(req.body.removed_files){
+                const removedFiles = req.body.removed_files.split(",")
+                const lastIndex = removedFiles.length - 1
+    
+                removedFiles.splice(lastIndex, 1)
+    
+                const removedFilesPromise = removedFiles.map(id => File.delete(id))
+    
+                await Promise.all(removedFilesPromise)
             }
         
             req.body.price = req.body.price.replace(/\D/g, "")
