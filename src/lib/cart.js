@@ -49,7 +49,35 @@ const Cart = {
         return this
     },
 
-    removeOne(productId){},
+    removeOne(productId){
+        const inCart = this.items.find(item => item.product.id == productId)
+
+        if(!inCart) return this
+
+        // Atualizar o item
+        inCart.quantity--
+        inCart.price = inCart.product.price * inCart.quantity
+        inCart.formattedPrice = formatPrice(inCart.price)
+
+        // Atualiza o carrinho
+        this.total.quantity--
+        this.total.price -= inCart.product.price
+        this.total.formattedPrice = formatPrice(this.total.price)
+
+        if(inCart.quantity < 1){
+            this.items.filter(item => item.product.id != inCart.product.id)
+            return this
+        }
+
+        // if(inCart.quantity < 1){
+        //     const itemIndex = this.items.indexOf(inCart)
+        //     this.items.splice(itemIndex, 1)
+        //     return this
+        // }
+
+        return this
+
+    },
     delete(productId){}
 }
 
