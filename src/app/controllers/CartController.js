@@ -34,9 +34,9 @@ module.exports = {
             req.session.cart = cart
 
             // Redirecionar o Usuário para a tela do Carrinho
-            return res.redirect('./cart')
+            return res.redirect('/cart')
 
-        } catch (error) {
+        } catch (err) {
             console.log(err)
         }
     },
@@ -62,7 +62,7 @@ module.exports = {
             // Redirecionar para a pag. Cart
             return res.redirect('/cart')
             
-        } catch (error) {
+        } catch (err) {
             console.log(err)
         }
     }

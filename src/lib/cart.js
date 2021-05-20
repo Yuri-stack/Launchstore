@@ -3,7 +3,7 @@ const { formatPrice } = require('./utils')
 const Cart = {
     init(oldCart){
         if(oldCart){
-            this.item = oldCart.items
+            this.items = oldCart.items
             this.total = oldCart.total
         }else{
             this.items = []
