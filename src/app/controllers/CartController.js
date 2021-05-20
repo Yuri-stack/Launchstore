@@ -39,5 +39,31 @@ module.exports = {
         } catch (error) {
             console.log(err)
         }
+    },
+
+    async removeOne(req,res){
+        try {
+
+            // Pegar o Id do produto
+            const { id } = req.params
+
+            // Pegar o Carrinho da Sessão
+            let { cart } = req.session
+
+            // Se não tiver, retornar
+            if(!cart) return res.redirect('/cart')
+
+            // Iniciar o Carrinho (Gerenciador de Carrinho) e Remover
+            cart = Cart.init(cart).removeOne(id)
+
+            // Atualizar o Carrinho da Sessão removendo 1 Item
+            req.session.cart = cart
+
+            // Redirecionar para a pag. Cart
+            return res.redirect('/cart')
+            
+        } catch (error) {
+            console.log(err)
+        }
     }
 }
