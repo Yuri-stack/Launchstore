@@ -6,7 +6,7 @@ const Cart = {
             this.item = oldCart.items
             this.total = oldCart.total
         }else{
-            this.item = []
+            this.items = []
             this.total = {
                 quantity: 0,
                 price: 0,
@@ -18,7 +18,7 @@ const Cart = {
     },
 
     addOne(product){
-        let inCart = this.getCartItem(productId)
+        let inCart = this.getCartItem(product.id)
 
         if(!inCart){
             inCart = {

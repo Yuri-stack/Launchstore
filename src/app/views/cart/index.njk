@@ -14,9 +14,9 @@
             {% for item in cart.items %}
 
                 <div class="item">
-                    <a href="/products/{{ item.product.id }}">
-                        <img src="{{ item.product.img }}" alt="Imagem do Produto {{ item.product.name }}">
-                        <span class="title">{{ item.product.name }}</span>
+                    <a href="/products/{{item.product.id}}">
+                        <img src="{{item.product.img}}" alt="Imagem do Produto {{item.product.name}}">
+                        <span class="title">{{item.product.name}}</span>
                     </a>
 
                     <span class="price">{{ item.formattedPrice }}</span>
@@ -52,7 +52,7 @@
             <span>{{ cart.total.formattedPrice }}</span>
         </div>
 
-        <div class="action">
+        <div class="actions">
             <a class="button shop" href="/products/search">Continuar comprando</a>
             <form action="/orders" method="post">
                 <button class="button order">

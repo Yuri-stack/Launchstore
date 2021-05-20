@@ -6,7 +6,7 @@ module.exports = {
     async index(req, res){
         try {
 
-            const product = await LoadProductsService('products', {where: { id: 1}})
+            const product = await LoadProductsService.load('product', {where: { id: 10}})
             let { cart } = req.session
 
             // Gerenciador de Carrinho
