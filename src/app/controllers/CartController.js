@@ -41,7 +41,7 @@ module.exports = {
         }
     },
 
-    async removeOne(req,res){
+    removeOne(req,res){
         try {
 
             // Pegar o Id do produto
@@ -64,6 +64,32 @@ module.exports = {
             
         } catch (err) {
             console.log(err)
+        }
+    },
+
+    delete(req, res){
+        try {
+
+            // Pegar o Id do produto
+            const { id } = req.params
+
+            // Pegar o Carrinho da Sessão
+            let { cart } = req.session
+
+            // Se não tiver, retornar
+            if(!cart) return
+
+            // Add o Id do Produto para ser retirado do Carrinho (Usando o Gerenciador)
+            cart = Cart.init(cart).delete(id)
+
+            // Atualizar o Carrinho da Sessão removendo o Produto
+            req.session.cart = cart
+
+            // Redirecionar para a pag. Cart
+            return res.redirect('/cart')
+            
+        } catch (error) {
+            console.log(error)
         }
     }
 }
