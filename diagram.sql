@@ -57,14 +57,30 @@ WITH (OIDS=FALSE);
 
 CREATE INDEX "IDX_session_expire" ON "session" ("expire");
 
+CREATE TABLE "orders" (
+	"id" SERIAL PRIMARY KEY,
+  "seller_id" INT NOT NULL,
+  "buyer_id" INT NOT NULL,
+  "product_id" INT NOT NULL,
+  "price" INT NOT NULL,
+  "quantity" INT DEFAULT 0,
+  "total" INT NOT NULL,
+  "status" TEXT NOT NULL,
+  "created_at" TIMESTAMP DEFAULT (now()),
+  "updated_at" TIMESTAMP DEFAULT (now())
+);
+
 -- Constraints
 ALTER TABLE "products" ADD FOREIGN KEY ("category_id") REFERENCES "categories" ("id");
 ALTER TABLE "files" ADD FOREIGN KEY ("product_id") REFERENCES "products" ("id") ON DELETE CASCADE;
 ALTER TABLE "products" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
 ALTER TABLE "session" ADD CONSTRAINT "session_pkey" PRIMARY KEY ("sid") NOT DEFERRABLE INITIALLY IMMEDIATE;
 
--- Constraints - CASCADE
+ALTER TABLE "orders" ADD FOREIGN KEY ("seller_id") REFERENCES "users" ("id");
+ALTER TABLE "orders" ADD FOREIGN KEY ("buyer_id") REFERENCES "users" ("id");
+ALTER TABLE "orders" ADD FOREIGN KEY ("product_id") REFERENCES "products" ("id");
 
+-- Constraints - CASCADE
 ALTER TABLE "products"
 DROP CONSTRAINT products_user_id_fkey,
 ADD CONSTRAINT products_user_id_fkey
@@ -96,6 +112,11 @@ EXECUTE PROCEDURE trigger_set_timestamp();
 
 CREATE TRIGGER set_timestamp
 BEFORE UPDATE ON users
+FOR EACH ROW
+EXECUTE PROCEDURE trigger_set_timestamp();
+
+CREATE TRIGGER set_timestamp
+BEFORE UPDATE ON orders
 FOR EACH ROW
 EXECUTE PROCEDURE trigger_set_timestamp();
 
