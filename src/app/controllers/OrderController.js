@@ -29,11 +29,11 @@ module.exports = {
         try {
 
             // Pegar os pedidos do Usuário
-            let order = await Order.findAll({ where: { buyer_id: req.session.user } })
+            let orders = await Order.findAll({ where: { buyer_id: req.session.userId } })
 
-            const getOrdersPromise = order.map(async order => {
+            const getOrdersPromise = orders.map(async order => {
                 // Detalhes do Produto
-                order.product = await LoadProductService.load('products', {
+                order.product = await LoadProductService.load('product', {
                     where: { id: order.product_id }
                 })
 
@@ -67,12 +67,12 @@ module.exports = {
 
             })
 
-            order = await Promise.all(getOrdersPromise)
+            orders = await Promise.all(getOrdersPromise)
 
-            return res.render("orders/index", { order })
+            return res.render("orders/index", { orders })
             
         } catch (err) {
-            console.log(err)
+            console.error(err)
             return res.render("orders/error")
         }
     },
