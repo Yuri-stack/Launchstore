@@ -5,6 +5,7 @@ const LoadProductService = require('../services/LoadProductService')
 
 const Cart = require('../../lib/cart')
 const mailer = require('../../lib/mailer')
+const { formatPrice, date } = require('../../lib/utils')
 
 const email = (seller,product, buyer) => `
     <h2>Olá ${seller.name}</h2>
@@ -24,6 +25,58 @@ const email = (seller,product, buyer) => `
 `
 
 module.exports = {
+    async index(req, res){
+        try {
+
+            // Pegar os pedidos do Usuário
+            let order = await Order.findAll({ where: { buyer_id: req.session.user } })
+
+            const getOrdersPromise = order.map(async order => {
+                // Detalhes do Produto
+                order.product = await LoadProductService.load('products', {
+                    where: { id: order.product_id }
+                })
+
+                // Detalhes do Comprador
+                order.buyer = await User.findOne({ where: { id: order.buyer_id } })
+
+                // Detalhes do Vendedor
+                order.seller = await User.findOne({ where: { id: order.seller_id } })
+
+                // Formatação de Preço
+                order.formattedPrice = formatPrice(order.price)
+                order.formattedTotal = formatPrice(order.total)
+
+                // Formatação do Status
+                const statuses = {
+                    open: 'Aberto',
+                    sold: 'Vendido',
+                    cancelled: 'Cancelado'
+                }
+
+                order.formattedStatus = statuses[order.status]
+
+                // Formatação para o Status Atualizado
+                const updatedAt = date(order.updated_at) 
+                order.formattedUpdatedAt = 
+                `
+                    ${order.formattedStatus} em ${updatedAt.day}/${updatedAt.month}/${updatedAt.year}
+                    às ${updatedAt.hour}h${updatedAt.minutes}
+                `
+                return order
+
+            })
+
+            order = await Promise.all(getOrdersPromise)
+
+            return res.render("orders/index", { order })
+            
+        } catch (err) {
+            console.log(err)
+            return res.render("orders/error")
+        }
+    },
+
     async post(req, res){
         try {
 
@@ -81,6 +134,10 @@ module.exports = {
             })
 
             await Promise.all(createOrdersPromise)
+
+            // Limpando o Carrinho
+            delete req.session.cart
+            Cart.init()
 
             // Notificar o sucesso da transação ao usuário 
             return res.render("orders/success")
