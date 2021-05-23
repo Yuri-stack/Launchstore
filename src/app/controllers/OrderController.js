@@ -6,6 +6,7 @@ const LoadOrderService = require('../services/LoadOrderService')
 
 const Cart = require('../../lib/cart')
 const mailer = require('../../lib/mailer')
+const { show } = require('./ProductController')
 
 const email = (seller,product, buyer) => `
     <h2>Olá ${seller.name}</h2>
@@ -116,7 +117,13 @@ module.exports = {
             
         } catch (err) {
             console.log(err)
-            return res.render("sales/error")
+            return res.render("orders/sales-error")
         }
+    },
+
+    async show(req, res){
+        const order = await LoadOrderService.load('order', { where: {id: req.params.id} })
+
+        return res.render("orders/details", { order })
     }
 }
