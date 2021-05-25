@@ -122,8 +122,52 @@ module.exports = {
     },
 
     async show(req, res){
-        const order = await LoadOrderService.load('order', { where: {id: req.params.id} })
+        try{
 
-        return res.render("orders/details", { order })
+            const order = await LoadOrderService.load('order', { where: {id: req.params.id} })
+            return res.render("orders/details", { order })
+
+        } catch (err) {
+            console.log(err)
+            return res.render("orders/sales-error")
+        }
+
+    },
+
+    async update(req, res){
+        try {
+
+            const { id, action } = req.params
+            const acceptedActions = ['close', 'cancel']
+
+            if(!acceptedActions.includes(action)) return res.send("Cant do this action")
+
+            // Pegar o Pedido
+            const order = await Order.findOne({ where: { id }})
+
+            if(!order) return res.send('Order not found')
+
+            // Verificar se o Pedido está aberto
+            if(order.status != 'open') return res.send("Cant do this action")
+
+            // Atualizar o Pedido
+            const statuses = {
+                close: "sold",
+                cancel: "cancelled"
+            }
+
+            order.status = statuses[action]
+
+            await Order.update(id, {
+                status: order.status
+            })
+
+            // Redireciona
+            return res.redirect('/orders/sales')
+            
+        } catch (err) {
+            console.log(err)
+            return res.render("orders/sales-error")
+        }
     }
 }
