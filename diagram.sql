@@ -95,6 +95,25 @@ FOREIGN KEY ("product_id")
 REFERENCES "products" ("id")
 ON DELETE CASCADE;
 
+--SOFT DELETE
+--1. Cria uma coluna na table Products
+ALTER TABLE products ADD COLUMN "deleted_at" timestamp;
+
+--2. Cria uma regra que vai rodar todas as vezes que solicitamos WHERE
+CREATE OR REPLACE RULE delete_product AS
+ON DELETE TO products DO INSTEAD
+UPDATE products
+SET deleted_at = now()
+WHERE products.id = old.id;
+
+--3. Cria uma View onde vamos puxar somente os dados que estão ativos
+CREATE VIEW products_without_deleted AS 
+SELECT * FROM products WHERE deleted_at IS NULL;
+
+-- 4. Renomear a View e Table
+ALTER TABLE products RENAME TO products_with_deleted;
+ALTER TABLE products_without_deleted RENAME TO products;
+
 -- Functions
 CREATE FUNCTION trigger_set_timestamp()
 RETURNS TRIGGER AS $$
