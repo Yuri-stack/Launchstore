@@ -1,100 +1,45 @@
 <h1  align="center">
-
-<br>
-
-<img  src="public/images/logo.png"  alt="Logo"  width="480">
-
-<br>
-
-<br>
-
-LaunchStore
-
+  <br><img  src="public/images/logo.png"  alt="Logo"  width="480"><br><br>
+  LaunchStore
 </h1>
 
-  
-
 <div>
-
-  
-
-<p  align="center">
-
-<a  href="https://www.linkedin.com/in/yuri-silva99/"  target="_blank">
-
-<img  src="https://img.shields.io/static/v1?label=Author&message=Yuri&color=00ff99&style=for-the-badge&logo=LinkedIn"  alt="Author: Yuri">
-
-</a>
-
-<a  href="#">
-
-<img  src="https://img.shields.io/static/v1?label=Language&message=Javascript&color=yellow&style=for-the-badge&logo=JavaScript"  alt="Language: Javascript">
-
-</a>
-
-<a  href="#">
-
-<img  src="https://img.shields.io/static/v1?label=Template&message=Nunjucks&color=green&style=for-the-badge&logo=Ghost"  alt="Language: Nunjucks">
-
-</a>
-
-<a  href="#">
-
-<img  src="https://img.shields.io/static/v1?label=Language&message=CSS&color=blue&style=for-the-badge&logo=CSS3"  alt="Language: CSS">
-
-</a>
-
-</p>
-
-  
-
+  <p  align="center">
+    <a  href="https://www.linkedin.com/in/yuri-silva99/"  target="_blank">
+      <img  src="https://img.shields.io/static/v1?label=Author&message=Yuri&color=00ff99&style=for-the-badge&logo=LinkedIn"  alt="Author: Yuri">
+    </a>
+    <a  href="#">
+      <img  src="https://img.shields.io/static/v1?label=Language&message=Javascript&color=yellow&style=for-the-badge&logo=JavaScript"  alt="Language: Javascript">
+    </a>
+    <a  href="#">
+      <img  src="https://img.shields.io/static/v1?label=Template&message=Nunjucks&color=green&style=for-the-badge&logo=Ghost"  alt="Language: Nunjucks">
+    </a>
+    <a  href="#">
+      <img  src="https://img.shields.io/static/v1?label=Language&message=CSS&color=blue&style=for-the-badge&logo=CSS3"  alt="Language: CSS">
+    </a>
+  </p>
 </div>
 
-  
-
-<p  align="center">
-
-<img  src="public/images/home.png"  alt="Home"  width="480">
-
-</p>
-
-  
+<p  align="center"><img  src="public/images/home.png"  alt="Home"  width="480"></p>
 
 ## Table of Contents
 
-  
-
-<!--ts-->
-
-* [About](#about)
-
-* [Features](#features)
-
-* [Revised Concepts](#revised-concepts)
-
-* [Installation](#installation)
-
-* [Getting Started](#getting-started)
-
-* [Technologies](#technologies)
-
-* [License](#license)
-
-<!--te-->
-
-  
+<p align="center">
+ <a href="#about">About</a> •
+ <a href="#features">Features</a> •
+ <a href="#revised-concepts">Revised Concepts</a> • 
+ <a href="#installation">Installation</a> • 
+ <a href="#getting-started">Getting Started</a> • 
+ <a href="#technologies">Technologies</a> • 
+ <a href="#license">License</a>
+</p>
 
 ## About
 <div>
-
-<p  align="center">
-
-LaunchStore is a project developed to create an application to manage a virtual store, with administration of the product and user registration areas. Made with Express, Nunjucks, CSS and PostGres.
-
-</p>
-
+  <p  align="center">
+    LaunchStore is a project developed to create an application to manage a virtual store, with administration of the product and user registration areas. Made with Express, Nunjucks, CSS and PostGres.
+  </p>
 </div>
- 
 
 ## Features
 
